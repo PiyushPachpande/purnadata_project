@@ -1,4 +1,4 @@
-package com.purnadata.java;
+package com.purnadata.java.customer;
 
 import java.util.List;
 

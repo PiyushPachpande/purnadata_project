@@ -1,4 +1,4 @@
-package com.purnadata.java;
+package com.purnadata.java.customer;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
