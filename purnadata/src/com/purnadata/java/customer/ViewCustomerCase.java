@@ -7,6 +7,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import com.purnadata.java.login.UserLogin_MainMenuCase;
+
+import pageobjectmodel.LoginPageFactory;
+
 public class ViewCustomerCase {
 
 	public static void main(String[] args) {
@@ -15,17 +19,11 @@ public class ViewCustomerCase {
 		driver.manage().window().maximize();
 		driver.get("https://www.purnadata.in/PurnaDemo/index.php");
 
-		// Login Page
-		driver.findElement(By.id("username")).sendKeys("admin");
-		driver.findElement(By.id("password")).sendKeys("admin");
-		driver.findElement(By.name("submit")).click();
-
-		// Clicking on Main
-		driver.findElement(By.xpath("//span[contains(text(),'Main')]")).click();
-
-		// Selecting Customer from Main menu
-		driver.findElement(By.xpath("//a[@href='customer_dashboard.php']")).click();
-
+		// Login Page from separate class using page object model.
+		UserLogin_MainMenuCase login = new UserLogin_MainMenuCase();
+		login.userLoginFunction(driver);
+		
+		
 		// Clicking on view button of customer having name Nirbhay
 		List<WebElement> tableData = driver.findElements(By.tagName("td"));
 

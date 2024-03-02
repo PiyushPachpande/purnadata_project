@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import com.purnadata.java.login.UserLogin_MainMenuCase;
+
 public class NewCustomerCase {
 
 	public static void main(String[] args) {
@@ -12,16 +14,9 @@ public class NewCustomerCase {
 		driver.manage().window().maximize();
 		driver.get("https://www.purnadata.in/PurnaDemo/index.php");
 
-		// Login Page
-		driver.findElement(By.id("username")).sendKeys("admin");
-		driver.findElement(By.id("password")).sendKeys("admin");
-		driver.findElement(By.name("submit")).click();
-
-		// Clicking on Main
-		driver.findElement(By.xpath("//span[contains(text(),'Main')]")).click();
-
-		// Selecting Customer from Main menu
-		driver.findElement(By.xpath("//a[@href='customer_dashboard.php']")).click();
+		// Login Page from separate class using page object model.
+		UserLogin_MainMenuCase login = new UserLogin_MainMenuCase();
+		login.userLoginFunction(driver);
 
 		// Clicking on New Customer
 		driver.findElement(By.name("btn_new_party")).click();
