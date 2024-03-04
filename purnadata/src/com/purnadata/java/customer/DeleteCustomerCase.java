@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import com.purnadata.java.login.UserLogin_MainMenuCase;
+import com.purnadata.java.login.UserLoginTest;
 
 public class DeleteCustomerCase {
 
@@ -18,7 +18,7 @@ public class DeleteCustomerCase {
 		driver.get("https://www.purnadata.in/PurnaDemo/index.php");
 
 		// Login and opening Customer Option from separate class using page object model.
-		UserLogin_MainMenuCase login = new UserLogin_MainMenuCase();
+		UserLoginTest login = new UserLoginTest();
 		login.userLoginFunction(driver);
 
 		// Clicking on delete button to delete record of customer Nikhil

@@ -1,10 +1,17 @@
 package com.purnadata.java.customer;
 
+import java.time.Duration;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import com.purnadata.java.login.UserLogin_MainMenuCase;
+import com.purnadata.java.login.UserLoginTest;
+
+import pageobjectmodel.CustomerDashboardPage;
+import pageobjectmodel.DashboardPage;
+import pageobjectmodel.LoginPage;
+import pageobjectmodel.NewCustomerPage;
 
 public class NewCustomerCase {
 
@@ -12,40 +19,50 @@ public class NewCustomerCase {
 
 		WebDriver driver = new ChromeDriver();
 		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		driver.get("https://www.purnadata.in/PurnaDemo/index.php");
 
 		// Login Page from separate class using page object model.
-		UserLogin_MainMenuCase login = new UserLogin_MainMenuCase();
-		login.userLoginFunction(driver);
+		LoginPage login = new LoginPage(driver);
+		login.txtbox_username.sendKeys("admin");
+		login.txtbox_password.sendKeys("admin");
+		login.btn_login.click();
 
+		//Clicking on Main menu dropdown
+		DashboardPage dashboard = new DashboardPage(driver);
+		dashboard.link_main.click();
+		dashboard.link_customer.click();
+		
 		// Clicking on New Customer
-		driver.findElement(By.name("btn_new_party")).click();
+		CustomerDashboardPage custDash = new CustomerDashboardPage(driver);
+		custDash.btn_newCustomer.click();
 
 		// Filling Customer details
-		driver.findElement(By.name("sr_no")).clear();
-		driver.findElement(By.name("sr_no")).sendKeys("123458");
-		driver.findElement(By.name("customer_name")).sendKeys("Piyush");
-		driver.findElement(By.name("contact_no")).sendKeys("9988776655");
-		driver.findElement(By.name("billing_address")).sendKeys("PCMC, Pune");
-		driver.findElement(By.name("check")).click();
-		driver.findElement(By.name("email")).sendKeys("piyush@gmail.com");
-		driver.findElement(By.name("contact_person")).sendKeys("Ariyan");
-		driver.findElement(By.name("person_no")).sendKeys("8208201259");
-		driver.findElement(By.name("gst_no")).sendKeys("27VAFFA0167Z2Z8");
-		driver.findElement(By.name("pan_no")).sendKeys("FBQAA125X");
-		driver.findElement(By.name("vendor_code_no")).sendKeys("125");
+		NewCustomerPage newCustomer = new NewCustomerPage(driver);
+		newCustomer.textbox_custNo.clear();
+		newCustomer.textbox_custNo.sendKeys("2000");
+		newCustomer.textbox_custName.sendKeys("Virat");
+		newCustomer.textbox_custContactNo.sendKeys("9876543210");
+		newCustomer.textbox_billAddr.sendKeys("Chinchwad");
+		newCustomer.textbox_shipAddr.sendKeys("Pune");
+		newCustomer.textbox_email.sendKeys("xyz@gmail.com");
+		newCustomer.textbox_contactPerson.sendKeys("Kohli");
+		newCustomer.textbox_personContactNo.sendKeys("9812345670");
+		newCustomer.textbox_gstNo.sendKeys("1223ADAA65AD5");
+		newCustomer.textbox_panNo.sendKeys("ABCDE9912Z");
+		newCustomer.textbox_vendorNo.sendKeys("ABC101");
 
 		// Saving filled details
-		driver.findElement(By.xpath("//button[@id='btn']")).click();
-
+		newCustomer.btn_saveorUpdate.click();
+		
 		// Clicking OK on popup
 		driver.switchTo().alert().accept();
 
 		// Clicking on Customer Details Button
-		driver.findElement(By.xpath("//a[@class='btn btn-success btn-fill']")).click();
-
+		newCustomer.btn_customerDetails.click();
+		
 		// Validation
-		if (driver.findElement(By.xpath("//td[text()='12345']")).isDisplayed()) {
+		if (newCustomer.validationID.isDisplayed()) {
 			System.out.println("New Customer details is successfully added.!!");
 		}
 

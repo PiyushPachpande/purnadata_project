@@ -1,15 +1,12 @@
 package com.purnadata.java.customer;
 
-import java.util.List;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import com.purnadata.java.login.UserLogin_MainMenuCase;
-
-import pageobjectmodel.LoginPageFactory;
+import pageobjectmodel.CustomerDashboardPage;
+import pageobjectmodel.DashboardPage;
+import pageobjectmodel.LoginPage;
+import pageobjectmodel.NewCustomerPage;
 
 public class ViewCustomerCase {
 
@@ -20,28 +17,24 @@ public class ViewCustomerCase {
 		driver.get("https://www.purnadata.in/PurnaDemo/index.php");
 
 		// Login Page from separate class using page object model.
-		UserLogin_MainMenuCase login = new UserLogin_MainMenuCase();
-		login.userLoginFunction(driver);
-		
-		
-		// Clicking on view button of customer having name Nirbhay
-		List<WebElement> tableData = driver.findElements(By.tagName("td"));
+		LoginPage login = new LoginPage(driver);
+		login.txtbox_username.sendKeys("admin");
+		login.txtbox_password.sendKeys("admin");
+		login.btn_login.click();
 
-		for (int i = 0; i < tableData.size(); i++) {
-			String cname = tableData.get(i).getText();
+		// Clicking on Main menu dropdown
+		DashboardPage dashboard = new DashboardPage(driver);
+		dashboard.link_main.click();
+		dashboard.link_customer.click();
 
-			if (cname.equals("Nirbhay")) {
-
-				String custId = tableData.get(i - 1).getText();
-				driver.findElement(By.xpath("//a[@href='view_customer.php?sr_no=" + custId + "']")).click();
-				break;
-			}
-
-		}
+		// Clicking on View Customer
+		CustomerDashboardPage custDash = new CustomerDashboardPage(driver);
+		custDash.btn_view.click();
 
 		// Validation
-		String cname = driver.findElement(By.id("customer_name")).getAttribute("value");
-		if (cname.equals("Nirbhay"))
+		NewCustomerPage newCustElement = new NewCustomerPage(driver);
+		String cname = newCustElement.textbox_custName.getAttribute("value");
+		if (cname.equals("Sandy"))
 			System.out.println("Customer " + cname + " details is displayed.!!");
 		else
 			System.out.println("Unexpected result is displayed");
